@@ -1,0 +1,24 @@
+# Ignore big folders
+Unzipped data/
+Data/
+images/
+
+# Python virtual environment
+.venv/
+
+# Bytecode and cache
+__pycache__/
+*.py[cod]
+
+# Jupyter and logs
+.ipynb_checkpoints/
+*.log
+
+# Data and artifacts
+*.csv
+*.zip
+*.db
+
+# macOS system files
+.DS_Store
+
