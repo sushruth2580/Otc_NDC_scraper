@@ -12,4 +12,8 @@ import configparser
 from datetime import datetime
 from pathlib import Path
 
+# Now we'll define some paths to store for us to access later
+root_address = Path("/Users/sushruth.ch/Desktop/NDC Scraper/Unzipped data")
+root_image_address =Path("Images")
+root_image_address.mkdir(exist_ok=True)
 
