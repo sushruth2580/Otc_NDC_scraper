@@ -1,3 +1,4 @@
+-- Active: 1732999269477@@localhost@5432
 # under the root directory
 # -*- coding: utf-8 -*-
 # under construction
@@ -23,4 +24,17 @@ xml_files= list(root_address.rglob("*.xml"))
 print(f"Found {len(xml_files)} in the given directory")
 
 for xml_file in xml_files:
-    
+    try:
+        tree = etree.parse(str(xml_file))
+        root = tree.getroot()
+        ns={"ns":root.nsmap[None]} # Namespace for XPath
+
+        def extract_text(xpath):                                    # this is an Xpath expression to extract text from the XML file 
+            result = root.xpath(xpath, namespace=ns)
+            return result[0].text.strip() if result else ''
+        
+        def extract_attr(xpath, attr):
+            result = root.xpath(xpath, namespaces=ns)
+            return result[0].attrib.get(attr) if result else ''
+
+
