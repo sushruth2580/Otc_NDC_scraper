@@ -44,14 +44,14 @@ for xml_file in xml_files:
 
         def extract_text(xpath):  # this is an Xpath expression to extract text from the XML file 
             result = root.xpath(xpath, namespaces=ns)  # Fixed parameter name
-            return result[0].text.strip() if result else ''
+            return result[0].text.strip() if result and result[0].text else ''
         
         def extract_attr(xpath, attr):
             result = root.xpath(xpath, namespaces=ns)
             return result[0].attrib.get(attr) if result else ''
         
         # Extract Product Information
-        product_name = extract_text('.//ns:characteristic[ns:code[@code="SPLIMPRINT"]]/ns:value') or xml_file.stem
+        product_name = extract_text('//ns:title') or xml_file.stem
         generic_name = extract_text('.//ns:section[ns:code[@displayName="OTC - ACTIVE INGREDIENT SECTION"]]/ns:text/ns:table/ns:tbody/ns:tr[2]/ns:td')
         form = extract_attr('.//ns:formCode', 'displayName')
         unit_elem = root.xpath('.//ns:numerator', namespaces=ns)
