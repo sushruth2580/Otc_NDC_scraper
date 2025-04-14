@@ -49,9 +49,12 @@ for xml_file in xml_files:
         def extract_attr(xpath, attr):
             result = root.xpath(xpath, namespaces=ns)
             return result[0].attrib.get(attr) if result else ''
-        
+        def sanitize_filename(name):
+            name = re.sub(r'[^\w\-. ]+', '_', name)
+            return name.replace('/', '_').replace('\\', '_')
+
         # Extract Product Information
-        product_name = extract_text('//ns:title') or xml_file.stem
+        product_name = extract_text('//ns:manufacturedProduct/ns:name') or extract_text('//ns:title') or xml_file.stem
         generic_name = extract_text('.//ns:section[ns:code[@displayName="OTC - ACTIVE INGREDIENT SECTION"]]/ns:text/ns:table/ns:tbody/ns:tr[2]/ns:td')
         form = extract_attr('.//ns:formCode', 'displayName')
         unit_elem = root.xpath('.//ns:numerator', namespaces=ns)
@@ -77,7 +80,7 @@ for xml_file in xml_files:
             shutil.copy2(img, dest)
             image_names.append(img.name)
 
-        # 🧾 Store Extracted Info in a List
+        # Store Extracted Info in a List
         data_row.append({
             "Product Name": product_name,
             "Generic Name": generic_name,
